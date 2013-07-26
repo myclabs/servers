@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.provision :shell, :inline => 'echo -e "mysql_root_password=myc-sense
-controluser_password=awesome" > /etc/phpmyadmin.facts;'
+controluser_password=myc-sense" > /etc/phpmyadmin.facts;'
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "manifests"
