@@ -11,36 +11,10 @@ Class['::apt::update'] -> Package <|
 and title != 'software-properties-common'
 |>
 
-apt::source { 'packages.dotdeb.org':
-  location          => 'http://packages.dotdeb.org',
-  release           => $lsbdistcodename,
-  repos             => 'all',
-  required_packages => 'debian-keyring debian-archive-keyring',
-  key               => '89DF5277',
-  key_server        => 'keys.gnupg.net',
-  include_src       => true
-}
+apt::key { '4F4EA0AAE5267A6C': }
 
-if $lsbdistcodename == 'squeeze' {
-  apt::source { 'packages.dotdeb.org-php54':
-    location          => 'http://packages.dotdeb.org',
-    release           => 'squeeze-php54',
-    repos             => 'all',
-    required_packages => 'debian-keyring debian-archive-keyring',
-    key               => '89DF5277',
-    key_server        => 'keys.gnupg.net',
-    include_src       => true
-  }
-}
-
-package { 'apache2-mpm-prefork':
-  ensure => 'installed',
-  notify => Service['apache'],
-}
-
-file { '/home/vagrant/.bash_aliases':
-  ensure => 'present',
-  source => 'puppet:///modules/puphpet/dot/.bash_aliases',
+apt::ppa { 'ppa:ondrej/php5':
+  require => Apt::Key['4F4EA0AAE5267A6C']
 }
 
 package { [
