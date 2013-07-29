@@ -23,7 +23,7 @@ Accès à la machine virtuelle :
 $ ssh monserver
 $ git clone https://github.com/myclabs/servers.git
 $ cd servers/
-$ puppet --verbose --modulepath modules manifests/default.pp
+$ ./puppet.sh
 ```
 
 ## TODO
