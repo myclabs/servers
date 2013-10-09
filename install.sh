@@ -1,15 +1,18 @@
 #!/bin/sh
 set -e
 
-if [ $# -ne 3 ]
+CURRENT_DIR=`pwd`
+
+if [ $# -ne 4 ]
 then
-    echo "Usage: $0 MYSQL_ROOT_PASSWORD MYSQL_MYCSENSE_PASSWORD PHPMYADMIN_PASSWORD" 1>&2
+    echo "Usage: $0 SERVER_NAME MYSQL_ROOT_PASSWORD MYSQL_MYCSENSE_PASSWORD PHPMYADMIN_PASSWORD" 1>&2
     exit 1
 fi
 
-MYSQL_ROOT_PASSWORD=$1
-MYSQL_MYCSENSE_PASSWORD=$2
-PHPMYADMIN_PASSWORD=$3
+SERVER_NAME=$1
+MYSQL_ROOT_PASSWORD=$2
+MYSQL_MYCSENSE_PASSWORD=$3
+PHPMYADMIN_PASSWORD=$4
 
 
 apt-get update
@@ -26,7 +29,7 @@ rm rabbitmq-signing-key-public.asc
 
 apt-get update
 
-apt-get install -y zsh curl git rabbitmq-server
+apt-get install -y zsh curl git rabbitmq-server supervisor
 
 # Mysql
 export DEBIAN_FRONTEND=noninteractive
@@ -63,3 +66,29 @@ mv composer.phar /usr/local/bin/composer
 # PHPUnit
 pear config-set auto_discover 1
 pear install pear.phpunit.de/PHPUnit
+
+# Deploy
+git clone https://github.com/myclabs/deploy.git /home/deploy
+ln -s /home/deploy/bin/deploy /usr/local/bin/deploy
+cd /home/deploy
+composer install
+cd CURRENT_DIR
+
+# Système de logs
+apt-get install libgemplugin-ruby
+gem install remote_syslog
+
+mkdir /etc/logs
+cat > /etc/logs/general.yml <<CONF
+files:
+  - /var/log/supervisor/supervisord.log
+hostname: $SERVER_NAME
+destination:
+  host: logs.papertrailapp.com
+  port: 14028
+CONF
+
+cp configs/supervisor/general-logs.conf /etc/supervisor/conf.d/general-logs.conf
+supervisorctl reload
+
+mkdir /home/web
