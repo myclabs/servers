@@ -1,9 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-MYSQL_ROOT_PASSWORD='foo'
-MYSQL_MYCSENSE_PASSWORD='bar'
-PHPMYADMIN_PASSWORD='foobar'
+if [ $# -ne 3 ]
+then
+    echo "Usage: $0 MYSQL_ROOT_PASSWORD MYSQL_MYCSENSE_PASSWORD PHPMYADMIN_PASSWORD" 1>&2
+    exit 1
+fi
+
+MYSQL_ROOT_PASSWORD=$1
+MYSQL_MYCSENSE_PASSWORD=$2
+PHPMYADMIN_PASSWORD=$3
 
 
 apt-get update

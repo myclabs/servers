@@ -34,8 +34,3 @@ $ git clone https://github.com/myclabs/servers.git
 $ cd servers/
 $ ./install.sh ...
 ```
-
-## TODO
-
-- sortir la config phpMyAdmin de la config vagrant
-- script qui lance puppet plus simplement
