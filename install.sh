@@ -18,7 +18,7 @@ PHPMYADMIN_PASSWORD=$4
 apt-get update
 
 # For PHP 5.5
-apt-get install -y python-software-properties
+apt-get install -y software-properties-common
 add-apt-repository -y ppa:ondrej/php5
 
 # RabbitMQ
@@ -40,7 +40,7 @@ mysql -u root -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'myc-sense'@'localhost' IDE
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'myc-sense'@'localhost';"
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
-apt-get install -y apache2 php5 php5-curl php5-cli php5-gd php5-mcrypt php5-dev php5-mysql php-pear php5-apcu
+apt-get install -y --force-yes apache2 php5 php5-curl php5-cli php5-gd php5-mcrypt php5-dev php5-mysql php-pear php5-apcu
 
 # PHP
 cp configs/php/apache2/php.ini /etc/php5/apache2/php.ini
