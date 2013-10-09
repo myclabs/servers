@@ -72,7 +72,7 @@ git clone https://github.com/myclabs/deploy.git /home/deploy
 ln -s /home/deploy/bin/deploy /usr/local/bin/deploy
 cd /home/deploy
 composer install
-cd CURRENT_DIR
+cd $CURRENT_DIR
 
 # Système de logs
 apt-get install libgemplugin-ruby
