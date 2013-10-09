@@ -1,29 +1,38 @@
-# Configuration Puppet pour configurer un serveur
+# Configuration des serveurs
 
-## The setup includes:
+- Debian 7.0
+- Apache
+- MySQL
+- PHP 5.5 + OpCache + APCu
+- RabbitMQ
+- phpMyAdmin
 
-* box:       precise64 (Ubuntu 12.10)
-* webserver: apache
-* database:  mysql
-* PHP:       PHP 5.4
+## Lancer le script
+
+```shell
+$ ./install.sh <MYSQL_ROOT_PASSWORD> <MYSQL_MYCSENSE_PASSWORD> <PHPMYADMIN_PASSWORD>
+```
 
 ## Tester la configuration en local dans vagrant
 
 Pour démarrer la machine virtuelle et lancer l'installation :
 
-    $ vagrant up
-
-Accès à la machine virtuelle :
-
-    $ vagrant ssh
+```shell
+$ vagrant up
+$ vagrant ssh
+$ cd /vagrant
+$ sudo ./install.sh ...
+```
 
 ## Déployer sur un serveur
 
-```
-$ ssh monserver
+Installer en tant que **root**!
+
+```shell
+$ ssh root@monserver
 $ git clone https://github.com/myclabs/servers.git
 $ cd servers/
-$ ./puppet.sh
+$ ./install.sh ...
 ```
 
 ## TODO
