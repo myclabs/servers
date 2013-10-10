@@ -75,7 +75,7 @@ composer install
 cd $CURRENT_DIR
 
 # Système de logs
-apt-get install libgemplugin-ruby
+apt-get install -y ruby ruby-dev
 gem install remote_syslog
 
 mkdir /etc/logs
