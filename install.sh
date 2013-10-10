@@ -3,16 +3,17 @@ set -e
 
 CURRENT_DIR=`pwd`
 
-if [ $# -ne 4 ]
+if [ $# -ne 3 ]
 then
-    echo "Usage: $0 SERVER_NAME MYSQL_ROOT_PASSWORD MYSQL_MYCSENSE_PASSWORD PHPMYADMIN_PASSWORD" 1>&2
+    echo "Usage: $0 SERVER_NAME MYSQL_ROOT_PASSWORD PASSWORD" 1>&2
+    echo "Example: $0 test.myc-sense.com bbbaaaeee aaabbbccc" 1>&2
+    echo "Password is for MySQL (user myc-sense) and RabbitMQ" 1>&2
     exit 1
 fi
 
 SERVER_NAME=$1
 MYSQL_ROOT_PASSWORD=$2
-MYSQL_MYCSENSE_PASSWORD=$3
-PHPMYADMIN_PASSWORD=$4
+PASSWORD=$3
 
 
 apt-get update
@@ -36,7 +37,7 @@ export DEBIAN_FRONTEND=noninteractive
 echo "mysql-server mysql-server/root_password password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD" | debconf-set-selections
 apt-get install -q -y mysql-server
-mysql -u root -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'myc-sense'@'localhost' IDENTIFIED BY '$MYSQL_MYCSENSE_PASSWORD';"
+mysql -u root -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'myc-sense'@'localhost' IDENTIFIED BY '$PASSWORD';"
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'myc-sense'@'localhost';"
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
@@ -45,6 +46,26 @@ apt-get install -y apache2 php5 php5-curl php5-cli php5-gd php5-mcrypt php5-dev 
 # PHP
 cp configs/php/apache2/php.ini /etc/php5/apache2/php.ini
 cp configs/php/cli/php.ini /etc/php5/cli/php.ini
+
+cat > /etc/apache2/sites-enabled/000-default.conf <<CONF
+<VirtualHost *:80>
+        ServerName $SERVER_NAME
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www
+
+        LogLevel warn
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        <Directory "/var/www">
+                AllowOverride all
+                Order allow,deny
+                Allow from all
+                Options +Indexes +FollowSymLinks +MultiViews
+        </Directory>
+</VirtualHost>
+CONF
 
 # Apache
 a2enmod rewrite
@@ -55,8 +76,8 @@ export DEBIAN_FRONTEND=noninteractive
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/mysql/admin-pass $MYSQL_ROOT_PASSWORD" | debconf-set-selections
-echo "phpmyadmin phpmyadmin/app-password-confirm $PHPMYADMIN_PASSWORD" | debconf-set-selections
-echo "phpmyadmin phpmyadmin/mysql/app-pass $PHPMYADMIN_PASSWORD" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/app-password-confirm $PASSWORD" | debconf-set-selections
+echo "phpmyadmin phpmyadmin/mysql/app-pass $PASSWORD" | debconf-set-selections
 apt-get install -q -y phpmyadmin
 
 # Composer
@@ -90,5 +111,12 @@ CONF
 
 cp configs/supervisor/general-logs.conf /etc/supervisor/conf.d/general-logs.conf
 supervisorctl reload
+
+# RabbitMQ
+rabbitmq-plugins enable rabbitmq_management
+rabbitmqctl delete_user guest
+rabbitmqctl add_user myc-sense $PASSWORD
+rabbitmqctl set_user_tags myc-sense administrator
+rabbitmqctl set_permissions -p "/" "myc-sense" ".*" ".*" ".*"
 
 mkdir /home/web
