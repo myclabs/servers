@@ -91,4 +91,4 @@ supervisorctl update
 
 php scripts/build/build.php create update
 
-ln -s /home/web/inventory1/public /var/www/inventory1
+ln -s /home/web/$NAME/public /var/www/$NAME
