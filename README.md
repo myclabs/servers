@@ -45,6 +45,7 @@ $ ./install.sh <SERVER_NAME> <MYSQL_ROOT_PASSWORD> <PASSWORD>
 - `PASSWORD` : mot de passe `myc-sense` mysql et RabbitMQ
 
 **Attention** : le script demandera à un moment de s'identifier pour GitHub (pour cloner `myclabs/deploy`).
+Utiliser ses propres identifiants : ils ne sont pas sauvegardés.
 
 ### Déployer sur un serveur
 
