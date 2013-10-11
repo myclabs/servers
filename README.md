@@ -19,7 +19,7 @@ LC_ALL=en_US.UTF-8
 
 - générer la clé SSH de root, et l'ajouter aux ["Deploy keys" de myclabs/Inventory](https://github.com/myclabs/Inventory/settings/keys)
 
-OK
+Une fois fait, on peut exécuter le script.
 
 Après l'exécution du script, créer les utilisateurs avec `adduser` et configurer `/etc/sudoers`.
 
@@ -44,7 +44,7 @@ $ ./install.sh <SERVER_NAME> <MYSQL_ROOT_PASSWORD> <PASSWORD>
 - `MYSQL_ROOT_PASSWORD` : mot de passe `root` mysql
 - `PASSWORD` : mot de passe `myc-sense` mysql et RabbitMQ
 
-Le script demandera à un moment de s'identifier pour GitHub.
+**Attention** : le script demandera à un moment de s'identifier pour GitHub (pour cloner `myclabs/deploy`).
 
 ### Déployer sur un serveur
 
