@@ -67,10 +67,6 @@ cat > /etc/apache2/sites-enabled/000-default.conf <<CONF
 </VirtualHost>
 CONF
 
-# Apache
-a2enmod rewrite
-apachectl restart
-
 # phpMyAdmin
 export DEBIAN_FRONTEND=noninteractive
 echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
@@ -79,6 +75,11 @@ echo "phpmyadmin phpmyadmin/mysql/admin-pass $MYSQL_ROOT_PASSWORD" | debconf-set
 echo "phpmyadmin phpmyadmin/app-password-confirm $PASSWORD" | debconf-set-selections
 echo "phpmyadmin phpmyadmin/mysql/app-pass $PASSWORD" | debconf-set-selections
 apt-get install -q -y phpmyadmin
+ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf
+
+# Apache
+a2enmod rewrite
+apachectl restart
 
 # Composer
 curl -sS https://getcomposer.org/installer | php

@@ -87,8 +87,8 @@ autorestart=true
 redirect_stderr=true
 CONF
 
-supervisorctl update
-
 php scripts/build/build.php create update
+
+supervisorctl update
 
 ln -s /home/web/$NAME/public /var/www/$NAME

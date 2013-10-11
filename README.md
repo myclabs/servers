@@ -25,6 +25,14 @@ Après l'exécution du script, créer les utilisateurs avec `adduser` et configu
 
 Puis désactiver le login SSH root et changer le port SSH pour 4269.
 
+Pour configurer l'heure : `sudo dpkg-reconfigure tzdata` puis ajouter dans la crontab root (`sudo crontab -e`) :
+
+    @hourly /etc/network/if-up.d/ntpdate ntp.ubuntu.com
+
+Il se peut que phpMyAdmin s'affiche mal, dans ce cas :
+
+    dpkg-reconfigure phpmyadmin
+
 ## Script de configuration du serveur
 
 - Debian 7.0
