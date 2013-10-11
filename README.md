@@ -17,7 +17,7 @@ LC_CTYPE=en_US.UTF-8
 LC_ALL=en_US.UTF-8
 ```
 
-- générer la clé SSH de root, et l'ajouter aux ["Deploy keys" de myclabs/Inventory](https://github.com/myclabs/Inventory/settings/keys)
+- générer la clé SSH de root (`ssh-keygen -t rsa`), et l'ajouter aux ["Deploy keys" de myclabs/Inventory](https://github.com/myclabs/Inventory/settings/keys)
 
 Une fois fait, on peut exécuter le script.
 
