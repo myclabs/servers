@@ -118,5 +118,6 @@ rabbitmqctl delete_user guest
 rabbitmqctl add_user myc-sense $PASSWORD
 rabbitmqctl set_user_tags myc-sense administrator
 rabbitmqctl set_permissions -p "/" "myc-sense" ".*" ".*" ".*"
+/etc/init.d/rabbitmq-server restart
 
 mkdir /home/web
