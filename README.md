@@ -30,6 +30,8 @@ Après l'exécution du script, créer les utilisateurs avec `adduser`, `groupadd
 jenkins ALL = NOPASSWD: /usr/local/bin/deploy
 ```
 
+Créer l'utilisateur jenkins (`adduser jenkins`) et permettre son login via clé SSH en ajoutant la clé publique à `/home/jenkins/.ssh/authorized_keys`.
+
 Puis désactiver le login SSH root et changer le port SSH pour 4269 (`/etc/ssh/sshd_config`).
 
 Pour configurer l'heure : `sudo dpkg-reconfigure tzdata` puis ajouter dans la crontab root (`sudo crontab -e`) :
