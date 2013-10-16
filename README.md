@@ -23,7 +23,7 @@ Puis se relogguer.
 
 Une fois fait, on peut exécuter le script.
 
-Après l'exécution du script, créer les utilisateurs avec `adduser` et configurer `/etc/sudoers`.
+Après l'exécution du script, créer les utilisateurs avec `adduser`, `groupadd admin`, `usermod -a -G admin someuser` puis configurer `/etc/sudoers`.
 
 Puis désactiver le login SSH root et changer le port SSH pour 4269.
 
