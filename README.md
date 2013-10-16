@@ -23,9 +23,14 @@ Puis se relogguer.
 
 Une fois fait, on peut exécuter le script.
 
-Après l'exécution du script, créer les utilisateurs avec `adduser`, `groupadd admin`, `usermod -a -G admin someuser` puis configurer `/etc/sudoers`.
+Après l'exécution du script, créer les utilisateurs avec `adduser`, `groupadd admin` (`admin` est un groupe automatiquement autorisé à faire `sudo`), `usermod -a -G admin someuser` puis ajouter dans `/etc/sudoers`:
 
-Puis désactiver le login SSH root et changer le port SSH pour 4269.
+```
+# Allow jenkins to deploy
+jenkins ALL = NOPASSWD: /usr/local/bin/deploy
+```
+
+Puis désactiver le login SSH root et changer le port SSH pour 4269 (`/etc/ssh/sshd_config`).
 
 Pour configurer l'heure : `sudo dpkg-reconfigure tzdata` puis ajouter dans la crontab root (`sudo crontab -e`) :
 
