@@ -42,6 +42,14 @@ Il se peut que phpMyAdmin s'affiche mal, dans ce cas :
 
     dpkg-reconfigure phpmyadmin
 
+Pour l'envoi de mail :
+
+    sudo apt-get install exim4
+
+Configuration dans `/etc/exim4/update-exim4.conf.conf` :
+
+    dc_eximconfig_configtype='internet'
+
 ## Script de configuration du serveur
 
 - Debian 7.0
