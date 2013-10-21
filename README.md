@@ -50,6 +50,8 @@ Configuration dans `/etc/exim4/update-exim4.conf.conf` :
 
     dc_eximconfig_configtype='internet'
 
+Puis redémarrer Exim 4: `sudo /etc/init.d/exim4 restart`.
+
 ## Script de configuration du serveur
 
 - Debian 7.0
