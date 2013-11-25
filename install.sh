@@ -100,17 +100,20 @@ cd $CURRENT_DIR
 apt-get install -y ruby ruby-dev
 gem install remote_syslog
 
-mkdir /etc/logs
-cat > /etc/logs/general.yml <<CONF
+mkdir -p /etc/logs/logs
+cat > /etc/logs/config.yml <<CONF
 files:
   - /var/log/supervisor/supervisord.log
+  - /var/log/mysql.err
+  - /var/log/mysql.log
+  - /etc/logs/logs/*
 hostname: $SERVER_NAME
 destination:
   host: logs.papertrailapp.com
   port: 14028
 CONF
 
-cp configs/supervisor/general-logs.conf /etc/supervisor/conf.d/general-logs.conf
+cp configs/supervisor/logs.conf /etc/supervisor/conf.d/logs.conf
 supervisorctl reload
 
 # RabbitMQ

@@ -54,7 +54,7 @@ Puis redémarrer Exim 4: `sudo /etc/init.d/exim4 restart`.
 
 ## Script de configuration du serveur
 
-- Debian 7.0
+- Ubuntu 13.04
 - Apache
 - MySQL
 - PHP 5.5 + OpCache + APCu

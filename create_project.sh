@@ -52,43 +52,14 @@ chmod 777 data/proxies
 chmod -R 777 public/cache
 chmod 777 public/temp
 
-cat > /etc/supervisor/conf.d/$NAME-worker.conf <<CONF
-[program:$NAME-worker]
-command=/usr/bin/php /home/web/$NAME/scripts/jobs/work/work.php
-
-; redirige la sortie d'erreur vers stdout
-redirect_stderr=true
-
-stdout_logfile=/home/web/$NAME/data/logs/worker.log
-
-autorestart=true
-CONF
-
-cat > /etc/logs/$NAME.yml <<CONF
-files: 
-  - /home/web/$NAME/data/logs/error.log
-  - /home/web/$NAME/data/logs/worker.log
-
-hostname: $SHORT_ENV.$NAME
-
-destination:
-  host: logs.papertrailapp.com
-  port: 14028
-CONF
-
-cat > /etc/supervisor/conf.d/$NAME-logs.conf <<CONF
-# Supervisor conf file for Papertrail
-[program:$NAME-logs]
-command=/usr/local/bin/remote_syslog -D --pid-file /var/run/remote_syslog_$NAME.pid -c /etc/logs/$NAME.yml
-user=root
-group=root
-autostart=true
-autorestart=true
-redirect_stderr=true
-CONF
+# Logs
+ln -s /home/web/$NAME/data/logs/error.log /etc/logs/logs/$NAME-web.log
+ln -s /home/web/$NAME/data/logs/worker.log /etc/logs/logs/$NAME-worker.log
+supervisorctl restart logs
 
 php scripts/build/build.php create update
 
+# Start worker
 supervisorctl update
 
 ln -s /home/web/$NAME/public /var/www/$NAME
