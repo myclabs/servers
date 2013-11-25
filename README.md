@@ -62,6 +62,7 @@ Puis redémarrer Exim 4: `sudo /etc/init.d/exim4 restart`.
 - Supervisor : gestion des processus démons (workers, …)
 - RabbitMQ : serveur de file de messages, utilisé pour les workers
 - remote_syslog : envoie les logs à [PaperTrail](https://papertrailapp.com/), notre outil de lecture des logs
+- New Relic : statistiques sur les serveurs et applications
 
 ```shell
 $ ./install.sh <SERVER_NAME> <MYSQL_ROOT_PASSWORD> <PASSWORD>

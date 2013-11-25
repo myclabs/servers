@@ -14,6 +14,7 @@ fi
 SERVER_NAME=$1
 MYSQL_ROOT_PASSWORD=$2
 PASSWORD=$3
+NEW_RELIC_KEY=1f9b4f1bfee1c5ee9c6891fd28c60a4134302838
 
 
 apt-get update
@@ -121,5 +122,17 @@ rabbitmqctl add_user myc-sense $PASSWORD
 rabbitmqctl set_user_tags myc-sense administrator
 rabbitmqctl set_permissions -p "/" "myc-sense" ".*" ".*" ".*"
 /etc/init.d/rabbitmq-server restart
+
+# New Relic
+wget -O - http://download.newrelic.com/548C16BF.gpg | apt-key add -
+echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list
+apt-get update
+apt-get install -y newrelic-sysmond newrelic-php5
+nrsysmond-config --set license_key=$NEW_RELIC_KEY
+/etc/init.d/newrelic-sysmond start
+export NR_INSTALL_SILENT=true
+export NR_INSTALL_KEY=$NEW_RELIC_KEY
+newrelic-install install
+apachectl restart
 
 mkdir /home/web
