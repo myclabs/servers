@@ -104,8 +104,6 @@ mkdir -p /etc/logs/logs
 cat > /etc/logs/config.yml <<CONF
 files:
   - /var/log/supervisor/supervisord.log
-  - /var/log/mysql.err
-  - /var/log/mysql.log
   - /etc/logs/logs/*
 hostname: $SERVER_NAME
 destination:
