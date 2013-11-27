@@ -52,6 +52,16 @@ Configuration dans `/etc/exim4/update-exim4.conf.conf` :
 
 Puis redémarrer Exim 4: `sudo /etc/init.d/exim4 restart`.
 
+Pour éviter d'avoir dans New Relic les stats de phpMyAdmin,
+il faut modifier le fichier `/etc/apache2/conf.d/phpmyadmin.conf` et ajouter dans `<IfModule mod_php5.c>` :
+
+    # Disable New Relic monitor
+    php_flag newrelic.enabled off
+
+Puis redémarrer Apache qui va redémarrer le démon :
+
+    sudo apachectl restart
+
 ## Script de configuration du serveur
 
 - Ubuntu 13.04
