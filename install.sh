@@ -31,7 +31,7 @@ rm rabbitmq-signing-key-public.asc
 
 apt-get update
 
-apt-get install -y zsh curl git rabbitmq-server supervisor
+apt-get install -y zsh curl git rabbitmq-server supervisor memcached python-pip
 
 # Mysql
 export DEBIAN_FRONTEND=noninteractive
@@ -42,7 +42,7 @@ mysql -u root -p$MYSQL_ROOT_PASSWORD -e "CREATE USER 'myc-sense'@'localhost' IDE
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'myc-sense'@'localhost';"
 mysql -u root -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
 
-apt-get install -y apache2 php5 php5-curl php5-cli php5-gd php5-mcrypt php5-dev php5-mysql php-pear php5-apcu
+apt-get install -y apache2 php5 php5-curl php5-cli php5-gd php5-mcrypt php5-dev php5-mysql php-pear php5-memcached
 
 # PHP
 cp configs/php/apache2/php.ini /etc/php5/apache2/php.ini
@@ -134,5 +134,17 @@ export NR_INSTALL_SILENT=true
 export NR_INSTALL_KEY=$NEW_RELIC_KEY
 newrelic-install install
 apachectl restart
+
+# New-Relic plugins
+pip install newrelic-plugin-agent
+cp configs/newrelic/newrelic_plugin_agent.cfg /etc/newrelic/newrelic_plugin_agent.cfg
+sed -e "s/REPLACE_WITH_REAL_KEY/$NEW_RELIC_KEY/" /etc/newrelic/newrelic_plugin_agent.cfg
+sed -e "s/RABBITMQ_USER/myc-sense/" /etc/newrelic/newrelic_plugin_agent.cfg
+sed -e "s/RABBITMQ_PASSWORD/$PASSWORD/" /etc/newrelic/newrelic_plugin_agent.cfg
+sed -e "s/SERVER_NAME/$SERVER_NAME/" /etc/newrelic/newrelic_plugin_agent.cfg
+cp /opt/newrelic_plugin_agent/newrelic_plugin_agent.deb /etc/init.d/newrelic_plugin_agent
+chmod +x /etc/init.d/newrelic_plugin_agent
+update-rc.d newrelic_plugin_agent defaults # auto start at boot
+/etc/init.d/newrelic_plugin_agent start # launch
 
 mkdir /home/web
