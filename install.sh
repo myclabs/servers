@@ -147,4 +147,7 @@ chmod +x /etc/init.d/newrelic_plugin_agent
 update-rc.d newrelic_plugin_agent defaults # auto start at boot
 /etc/init.d/newrelic_plugin_agent start # launch
 
+# Groupe des utilisateurs ayant le droit de déployer
+groupadd deployers
+
 mkdir /home/web

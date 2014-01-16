@@ -23,7 +23,8 @@ Puis se relogguer.
 
 Une fois fait, on peut exécuter le script.
 
-Après l'exécution du script, créer les utilisateurs avec `adduser`, `groupadd admin` (`admin` est un groupe automatiquement autorisé à faire `sudo`), `usermod -a -G admin someuser` puis ajouter dans `/etc/sudoers`:
+Après l'exécution du script, créer les utilisateurs avec `adduser`, `groupadd admin` (`admin` est un groupe automatiquement autorisé à faire `sudo`),
+`usermod -a -G admin someuser`, `sudo usermod -a -G deployers someuser` puis ajouter dans `/etc/sudoers`:
 
 ```
 # Allow jenkins to deploy
@@ -31,6 +32,7 @@ jenkins ALL = NOPASSWD: /usr/local/bin/deploy
 ```
 
 Créer l'utilisateur jenkins (`adduser jenkins`) et permettre son login via clé SSH en ajoutant la clé publique à `/home/jenkins/.ssh/authorized_keys`.
+Puis lui ajouter le groupe `deployers` pour qu'il ait le droit de déployer: `sudo usermod -a -G deployers jenkins`.
 
 Puis désactiver le login SSH root et changer le port SSH pour 4269 (`/etc/ssh/sshd_config`).
 
