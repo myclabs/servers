@@ -112,10 +112,11 @@ $ sudo ./install.sh ...
 ## Script d'installation d'Inventory
 
 ```shell
-$ ./create_project.sh <NAME> <ENV> <SHORT_ENV> <PASSWORD>
+$ ./create_project.sh <NAME> <ENV> <SHORT_ENV> <PASSWORD> <BASE_URL>
 ```
 
 - `NAME` : par ex. `inventory1` ou `bollore`
 - `ENV` : environnement complet : `developpement`, `production`…
 - `SHORT_ENV` : environnement cours (pour le nom du serveur) : `dev`, `prod`…
 - `PASSWORD` : mot de passe `myc-sense` mysql et RabbitMQ
+- `BASE_URL` : url de l'application (sans `/` à la fin), par exemple `http://test.myc-sense.com/inventory1`

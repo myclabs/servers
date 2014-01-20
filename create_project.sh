@@ -3,8 +3,8 @@ set -e
 
 if [ $# -ne 4 ]
 then
-    echo "Usage: $0 NAME ENV SHORT_ENV PASSWORD" 1>&2
-    echo "Example: $0 inventory1 developpement dev aaabbbccc" 1>&2
+    echo "Usage: $0 NAME ENV SHORT_ENV PASSWORD BASE_URL" 1>&2
+    echo "Example: $0 inventory1 developpement dev aaabbbccc http://test.myc-sense.com/inventory1" 1>&2
     echo "Password is for MySQL (user myc-sense) and RabbitMQ" 1>&2
     exit 1
 fi
@@ -14,6 +14,7 @@ ENV=$2
 SHORT_ENV=$3
 # Password for MySQL and RabbitMQ
 PASSWORD=$4
+BASE_URL=$5
 
 DIR_WEB=/home/web
 
@@ -29,6 +30,7 @@ sed -i "s/production/$ENV/" application/configs/env.php
 cat > application/configs/application.ini <<CONF
 [production]
 applicationName = "$NAME"
+applicationUrl = "$BASE_URL"
 sessionStorage.name = "$NAME"
 
 doctrine.default.connection.user = 'myc-sense'
