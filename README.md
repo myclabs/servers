@@ -64,6 +64,8 @@ Puis redémarrer Apache qui va redémarrer le démon :
 
     sudo apachectl restart
 
+Installer de la swap : https://www.digitalocean.com/community/articles/how-to-add-swap-on-ubuntu-12-04
+
 ## Script de configuration du serveur
 
 - Ubuntu 13.04
