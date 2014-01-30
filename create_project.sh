@@ -20,7 +20,7 @@ DIR_WEB=/home/web
 
 git clone git@github.com:myclabs/Inventory.git /home/web/$NAME
 cd /home/web/$NAME
-composer install --no-dev
+composer install --no-dev -o
 
 cp public/.htaccess.default public/.htaccess
 cp application/configs/env.php.default application/configs/env.php
