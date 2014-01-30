@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-if [ $# -ne 4 ]
+if [ $# -ne 5 ]
 then
     echo "Usage: $0 NAME ENV SHORT_ENV PASSWORD BASE_URL" 1>&2
     echo "Example: $0 inventory1 developpement dev aaabbbccc http://test.myc-sense.com/inventory1" 1>&2
